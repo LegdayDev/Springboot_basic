@@ -10,3 +10,7 @@
 > 1. Oracle Docker 설치
 > 2. Database 설정
 > 3. SpringBoot + MyBatis 세팅
+
+## [3일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring02/src/main/resources/md/day03.md)
+> 1. SpringBoot + MyBatis 세팅 복습
+> 2. SpringMVC 구조 개발순서

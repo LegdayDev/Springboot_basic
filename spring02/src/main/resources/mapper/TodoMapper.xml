@@ -10,11 +10,17 @@
                DUEDATE,
                WRITER,
                ISDONE
-        FROM TODOS;
+        FROM TODOS
     </select>
 
-    <select id="selectTodoAll" resultType="com.legday.spring02.domain.Todo">
-
+    <select id="selectTodo" resultType="com.legday.spring02.domain.Todo" parameterType="int">
+        SELECT TNO,
+               TITLE,
+               DUEDATE,
+               WRITER,
+               ISDONE
+        FROM TODOS
+        WHERE TNO = #{tno}
 
     </select>
 </mapper>

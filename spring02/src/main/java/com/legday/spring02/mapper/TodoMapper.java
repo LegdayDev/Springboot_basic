@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface TodoMapper {
-    List<Todo> selectTodoAll();
-
-    Todo selectTodos(int tno);
+    Todo selectTodo(int tno) throws Exception;
+    List<Todo> selectTodos() throws Exception;
 }

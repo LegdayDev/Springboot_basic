@@ -1,4 +1,4 @@
-## Springboot 2일차
+## Springboot 3일차
 > 1. SpringBoot + MyBatis 세팅 복습
 > 2. SpringMVC 구조 개발순서
 

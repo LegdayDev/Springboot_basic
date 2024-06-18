@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>게시판 목록</title>
+</head>
+<body>
+<h2>게시판 목록</h2>
+<hr>
+<table border="1">
+  <thead>
+  <tr>
+    <td>BNO</td>
+    <td>TITLE</td>
+    <td>CONTENT</td>
+    <td>CREATE_DATE</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="board : ${boards}">
+    <td th:text="${board.getBno()}"></td>
+    <td>
+      <a th:href="@{/board/detail/{boardId}(boardId=${board.getBno()})}" th:text="${board.getTitle()}"></a>
+    </td>
+    <td th:text="${board.getContent()}"></td>
+    <td th:text="${board.getCreateDate()}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

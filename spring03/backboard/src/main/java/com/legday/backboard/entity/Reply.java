@@ -26,4 +26,13 @@ public class Reply {
     @JoinColumn(name="BOARD_BNO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "rno=" + rno +
+                ", content='" + content + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

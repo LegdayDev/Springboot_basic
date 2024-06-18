@@ -5,29 +5,31 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>게시판 목록</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
 </head>
 <body>
 <h2>게시판 목록</h2>
 <hr>
-<table border="1">
-  <thead>
-  <tr>
-    <td>BNO</td>
-    <td>TITLE</td>
-    <td>CONTENT</td>
-    <td>CREATE_DATE</td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="board : ${boards}">
-    <td th:text="${board.getBno()}"></td>
-    <td>
-      <a th:href="@{/board/detail/{boardId}(boardId=${board.getBno()})}" th:text="${board.getTitle()}"></a>
-    </td>
-    <td th:text="${board.getContent()}"></td>
-    <td th:text="${board.getCreateDate()}"></td>
-  </tr>
-  </tbody>
-</table>
+<div class="container my-3">
+  <table class="table table-success table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board, loop : ${boards}">
+      <td th:text="${loop.count}"></td> <!-- 타임리프 문법 : for문에서 각 n번째의 값을 가져온다 -->
+      <td>
+        <a th:href="@{/board/detail/{boardId}(boardId=${board.getBno()})}" th:text="${board.getTitle()}"></a>
+      </td>
+      <td th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

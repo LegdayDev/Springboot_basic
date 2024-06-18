@@ -22,4 +22,6 @@
 > 4. Spring Boot JPA 프로젝트 개발 시작
 
 ## [5일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/md/day05.md)
-> 1. Spring Boot JPA 프로젝트 개발 
+> 1. Junit5 로 테스트 코드 구현
+> 2. Thymeleaf + JPA 로 SSR(Server Side Rendring) 구현
+> 3. `Bootstrap` 스타일 적용

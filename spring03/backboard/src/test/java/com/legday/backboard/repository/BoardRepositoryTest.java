@@ -33,7 +33,7 @@ class BoardRepositoryTest {
     @DisplayName("Board 저장 테스트")
     public void save() throws Exception {
         //given
-        Board book = Board.builder().title("첫번 째 테스트").content("어쩌라구").createDate(LocalDateTime.now()).build();
+        Board book = Board.builder().title("검찰총장").content("윤석열").createDate(LocalDateTime.now()).build();
         //when
         Board bookPS = boardRepository.save(book);
 

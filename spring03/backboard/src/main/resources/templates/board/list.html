@@ -1,16 +1,9 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>게시판 목록</title>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
-</head>
-<body>
-<h2>게시판 목록</h2>
-<hr>
-<div class="container my-3">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<div layout:fragment="main-content" class="container my-3">
+  <h2>게시판 목록</h2>
+  <hr>
   <table class="table table-success table-striped">
     <thead class="table-dark">
     <tr>
@@ -29,7 +22,8 @@
     </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-end">
+    <a th:href="@{/board/create}" class="btn btn-sm btn-primary my-2">게시글 등록</a>
+  </div>
 </div>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
 </html>

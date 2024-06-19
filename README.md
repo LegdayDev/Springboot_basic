@@ -25,3 +25,10 @@
 > 1. Junit5 로 테스트 코드 구현
 > 2. Thymeleaf + JPA 로 SSR(Server Side Rendring) 구현
 > 3. `Bootstrap` 스타일 적용
+
+
+## [6일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/md/day06.md)
+> 1. Thymeleaf 레이아웃 템플릿 생성 및 적용
+> 2. 유효성 검사 - Validation
+> 3. 네비게이션바(Bootstrap) 추가
+> 4. 호버(hover) 기능 추가

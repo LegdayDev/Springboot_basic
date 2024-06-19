@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -15,7 +16,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public List<Board> boardList() {
+    public List<Board> findAllBoard() {
         return boardRepository.findAll();
     }
 
@@ -23,5 +24,11 @@ public class BoardService {
         return boardRepository.findById(bno).orElseThrow(() -> {
             throw new RuntimeException("Board Not Found");
         });
+    }
+    
+    @Transactional
+    public Long saveBoard(String title, String content){
+        Board save = boardRepository.save(Board.builder().title(title).content(content).createDate(LocalDateTime.now()).build());
+        return save.getBno();
     }
 }

@@ -1,14 +1,6 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>게시판 목록</title>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
-</head>
-<body>
-<div class="container my-3">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<div class="container my-3" layout:fragment="main-content">
   <!-- 게시글 영역 -->
   <h2 th:text="${board.getTitle()}" class="border-bottom py-2"></h2>
   <div class="card text-bg-light my-3">
@@ -36,14 +28,13 @@
   </div>
 
   <!-- 댓글 기능 영역-->
-  <form th:action="@{/reply/create/{bno}(bno=${board.getBno()})}" method="post" class="my-3">
-    <textarea name="content" id="content" rows="10" class="form-control"></textarea>
+  <form th:action="@{|/reply/create/${board.getBno()}|}" th:object="${replyForm}" method="post" class="my-3">
+    <div th:replace="~{errors :: formErrorFragment}"></div>
+    <textarea th:field="*{content}" rows="10" class="form-control"></textarea>
     <div class="d-flex justify-content-end mt-2">
       <a href="/board/list" class="btn btn-secondary mx-1 btn-sm">목록</a>
       <input type="submit" value="댓글등록" class="btn btn-primary btn-sm">
     </div>
   </form>
 </div>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
 </html>

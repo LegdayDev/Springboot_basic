@@ -25,4 +25,12 @@
 ### 3. `Bootstrap` 스타일 적용
 1. Bootstrap 파일 다운로드 후 프로젝트 내부에 저장 -> `boostrap.min.css`, `bootstrap.min.js` 을 `/resources/static/css or js` 에 저장
 2. CDN 으로 링크로 추가
- 
+
+#### 결과화면
+- `/board/list`
+
+  ![img.png](../static/images/img01.png)
+- `board/detail/{bno}`
+
+  ![img_1.png](../static/images/img02.png)
+  

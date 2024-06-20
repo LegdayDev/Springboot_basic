@@ -32,3 +32,10 @@
 > 2. 유효성 검사 - Validation
 > 3. 네비게이션바(Bootstrap) 추가
 > 4. 호버(hover) 기능 추가
+
+## [7일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/md/day07.md)
+> 1. Spring Data Jpa - 쿼리 메서드
+> 2. 페이징 기능
+> 3. 댓글 갯수 표시
+> 4. 스프링 시큐리티 세팅
+> 5. 회원가입 기능 전 엔티티 세팅

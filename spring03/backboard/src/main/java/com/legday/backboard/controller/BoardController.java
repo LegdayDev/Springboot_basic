@@ -17,9 +17,10 @@ public class BoardController {
 
     private final BoardService boardService;
 
+
     @GetMapping("/list")
-    public String boardForm(Model model) {
-        model.addAttribute("boards", boardService.findAllBoard());
+    public String boardFormV2(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        model.addAttribute("paging", boardService.boardList(page));
         return "board/list";
     }
 
@@ -38,7 +39,7 @@ public class BoardController {
 
     @PostMapping("/create")
     public String create(@Valid BoardForm form, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
+        if (bindingResult.hasErrors())
             return "/board/create";
 
         Long bno = boardService.saveBoard(form.getTitle(), form.getContent());

@@ -1,50 +1,55 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.6'
-	id 'io.spring.dependency-management' version '1.1.5'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.6'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.legday'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// 기본 의존성
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	// 테스트를 위한 의존성
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// DB를 위한 의존성
-	runtimeOnly 'com.h2database:h2'
-	//	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // 기본 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.security:spring-security-test'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    // 테스트를 위한 의존성
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // DB를 위한 의존성
+//    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	// Thymeleaf layout 적용르 위한 의존성
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    // Thymeleaf layout 적용르 위한 의존성
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
-	// 유효성검사 라이브러리
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // 유효성검사 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

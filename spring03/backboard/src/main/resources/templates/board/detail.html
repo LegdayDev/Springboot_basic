@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container my-3" layout:fragment="main-content">
   <!-- 게시글 영역 -->
   <h2 th:text="${board.getTitle()}" class="border-bottom py-2"></h2>
@@ -7,7 +7,13 @@
     <div class="card-body">
       <div th:text="${board.getContent()}" class="card-text"></div>
       <div class="d-flex justify-content-end">
-        <div class="badge bg-success p-2">
+        <!-- 게시글 작성자와 작성일 표시하는 뱃지 -->
+        <div class="badge text-bg-success p-2">
+          <div class="mb-2">
+            <span th:if="${board.writer != null}"
+                  th:text="${board.writer.username}">
+            </span>
+          </div>
           <div th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
@@ -20,8 +26,14 @@
     <div class="card-body">
       <div th:text="${reply.content}" class="card-text"></div>
       <div class="d-flex justify-content-end">
-        <div class="badge bg-success p-2">
-          <div th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
+        <!-- 댓글작성자와 작성일 표시하는 뱃지 -->
+        <div class="badge text-bg-success p-2">
+          <div class="mb-2">
+            <span th:if="${reply.writer != null}"
+                  th:text="${reply.writer.username}">
+            </span>
+          </div>
+          <div th:text="${#temporals.format(reply.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
     </div>
@@ -30,7 +42,8 @@
   <!-- 댓글 기능 영역-->
   <form th:action="@{|/reply/create/${board.getBno()}|}" th:object="${replyForm}" method="post" class="my-3">
     <div th:replace="~{errors :: formErrorFragment}"></div>
-    <textarea th:field="*{content}" rows="10" class="form-control"></textarea>
+    <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
+    <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="10" class="form-control"></textarea>
     <div class="d-flex justify-content-end mt-2">
       <a href="/board/list" class="btn btn-secondary mx-1 btn-sm">목록</a>
       <input type="submit" value="댓글등록" class="btn btn-primary btn-sm">

@@ -1,6 +1,8 @@
 package com.legday.backboard.service;
 
+import com.legday.backboard.common.NotFoundException;
 import com.legday.backboard.entity.Board;
+import com.legday.backboard.entity.Member;
 import com.legday.backboard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +29,7 @@ public class BoardService {
 
     public Board findBoard(Long bno) {
         return boardRepository.findByBno(bno).orElseThrow(() -> {
-            throw new RuntimeException("Board Not Found");
+            throw new NotFoundException("Board Not Found");
         });
     }
 
@@ -38,8 +40,8 @@ public class BoardService {
     }
 
     @Transactional
-    public Long saveBoard(String title, String content) {
-        Board save = boardRepository.save(Board.builder().title(title).content(content).createDate(LocalDateTime.now()).build());
+    public Long saveBoard(String title, String content, Member writer) {
+        Board save = boardRepository.save(Board.builder().title(title).content(content).writer(writer).createDate(LocalDateTime.now()).build());
         return save.getBno();
     }
 }

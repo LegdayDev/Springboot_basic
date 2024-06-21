@@ -31,4 +31,17 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member writer;
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "createDate=" + createDate +
+                ", content='" + content + '\'' +
+                ", title='" + title + '\'' +
+                ", bno=" + bno +
+                '}';
+    }
 }

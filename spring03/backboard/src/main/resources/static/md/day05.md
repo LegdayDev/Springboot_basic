@@ -29,8 +29,8 @@
 #### 결과화면
 - `/board/list`
 
-  ![img.png](../static/images/img01.png)
+  ![img.png](../images/img01.png)
 - `board/detail/{bno}`
 
-  ![img_1.png](../static/images/img02.png)
+  ![img_1.png](../images/img02.png)
   

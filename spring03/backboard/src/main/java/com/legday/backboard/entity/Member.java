@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member {
     @Id
@@ -19,12 +20,26 @@ public class Member {
     @Column(unique = true, length = 100)
     private String username;
 
-    @Column(unique = true, length = 150)
     private String email;
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 12)
+    private MemberRole role;
+
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "regDate", updatable = false)
     private LocalDateTime createDate;
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "mid=" + mid +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

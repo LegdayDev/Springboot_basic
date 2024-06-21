@@ -13,14 +13,14 @@
 - `/board/create.html` 생성하여 게시글 작성 Form 생성
 - `/board/list.html` 에 게시글 등록 버튼 추가
   
-  ![img.png](../static/images/img03.png)
+  ![img.png](../images/img03.png)
 - `BoardController.java` 클래스에 게시물생성 폼 연결 - `@GetMapping`
   
-  ![img_1.png](../static/images/img04.png)
+  ![img_1.png](../images/img04.png)
 - `BoardController.java` 클래스에 게시물생성 로직 추가 - `@PostMapping`
 - 데이터 입력 후 댓글등록 클릭 시 상세페이지로 이동
   
-  ![img_2.png](../static/images/img05.png)
+  ![img_2.png](../images/img05.png)
 ---
 ### 2. 유효성 검사 - Validation
 - 현재 클라이언트에서 요청한 데이터를 Null 값도 그냥 받기 때문에 유효성 검사가 필요함 !
@@ -60,7 +60,7 @@
   </form>
   .... 생략
   ```
-  ![img.png](../static/images/img06.png)
+  ![img.png](../images/img06.png)
   > 클라이언트(브라우저)에서 데이터 요청을 받을 때는 컨트롤러에서 `Validation` 을 이용하여 유효성 검사가 꼭 필요하다 !
 - 현재 title 과 content 둘 중 하나만 입력하고 제출 시 빈 데이터를 입력하라고 알림창이 뜬다. 하지만 모든 필드값이 초기화 되기 때문에 `<input>` 태그 수정이 필요
   ```html
@@ -99,7 +99,7 @@
         return String.format("redirect:/board/detail/%s", bno);
     }
     ```
-    ![img_1.png](../static/images/img07.png)
+    ![img_1.png](../images/img07.png)
 - 현재 유효성 검사 실패 시 알림창을 띄우는 HTML 코드를 타임리프 레이아웃으로 블럭화 시킨다.
   ```html
   <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
@@ -156,4 +156,4 @@
       color: #0d6efd;
   }
   ```
-  ![img.png](../static/images/img08.png)
+  ![img.png](../images/img08.png)

@@ -6,18 +6,23 @@
   <hr>
   <table class="table table-success table-striped">
     <thead class="table-dark">
-    <tr>
+    <tr class="text-center">
       <th>번호</th>
-      <th>제목</th>
+      <th style="width: 60%;">제목</th>
+      <th>작성자</th>
       <th>작성일</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="board, loop : ${paging}">
-      <td th:text="${paging.getTotalElements()-(paging.number * paging.size)-loop.index}"></td>
-      <td>
+    <tr th:each="board, loop : ${paging}" class="text-center">
+      <td th:text="${paging.getTotalElements()-(paging.number * paging.size)-loop.index}" class="text-end"></td>
+      <td class="text-center">
         <a th:href="@{/board/detail/{boardId}(boardId=${board.getBno()})}" th:text="${board.getTitle()}"></a>
         <span th:if="${#lists.size(board.replies) > 0}" th:text="${#lists.size(board.replies)}" class="badge text-bg-success">Success</span>
+      </td>
+      <!-- 작성자 -->
+      <td>
+        <span th:if="${board.getWriter() != null}" th:text="${board.writer.username}"></span>
       </td>
       <td th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></td>
     </tr>

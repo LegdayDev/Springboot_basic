@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -11,13 +11,32 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <!-- 웹 사이드용 CSS -->
-  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<!--  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">-->
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 
   <!-- Favicon  탭에 들어가는 아이콘 -->
   <link rel="icon" href="https://getbootstrap.com//docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="https://getbootstrap.com//docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 </head>
+<style>
+    /* 밑줄 제거 및 색깔 변경*/
+    a {
+        text-decoration: none;
+        color: #333333;
+    }
+
+    /* 마우스 올리면 밑줄 생기게 */
+    a:hover {
+        text-decoration: underline;
+        color: #0d6efd;
+    }
+
+    /* 회원가입 창 크기 */
+    .form-register {
+        max-width: 400px;
+        padding: 1rem;
+    }
+</style>
 <body>
 <!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
@@ -31,7 +50,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">로그인</a>
+          <a class="nav-link" th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/member/register}" sec:authorize="isAnonymous()">회원가입</a>
         </li>
       </ul>
     </div>

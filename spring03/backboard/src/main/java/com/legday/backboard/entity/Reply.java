@@ -27,6 +27,9 @@ public class Reply {
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member writer;
+
     @Override
     public String toString() {
         return "Reply{" +

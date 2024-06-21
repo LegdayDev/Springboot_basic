@@ -45,7 +45,7 @@
       return "board/list";
   }
   ```
-  ![img.png](../static/images/img09.png)
+  ![img.png](../images/img09.png)
 - 이제는 하단에 페이지 이동을 할 수 있는 번호들을 만들고 각 번호를 클릭 할 때마다 `page` 값을 다르게 넘겨주면 된다.
 - 인덱스는 0부터 시작하지만 1부터 시작하게하고 가장 처음과 가장 끝에가면 이전과 다음 버튼을 비활성화 시킨다.
 - 그리고 제일앞, 제일 뒤로 가는 버튼도 추가하였다.
@@ -73,8 +73,8 @@
     </ul>
   </nav>
   ```
-  ![img.png](../static/images/img10.png)
-  ![img_1.png](../static/images/img11.png)
+  ![img.png](../images/img10.png)
+  ![img_1.png](../images/img11.png)
 - 현재 데이터는 잘 갖고오지만 제대로 정렬이 안되어있다.
   ```java
   public Page<Board> boardList(int page) {
@@ -83,19 +83,19 @@
       return boardRepository.findAll(PageRequest.of(page, 10, Sort.by(sorts)));
   }
   ```
-  ![img.png](../static/images/img12.png)
+  ![img.png](../images/img12.png)
 - 각 페이지에 맞는 번호가 필요하기 때문에 번호를 나타내는 부분에 계산식이 필요
   ```html
   <td th:text="${paging.getTotalElements()-(paging.number * paging.size)-loop.index}"></td>
   ```
-  ![img.png](../static/images/img13.png)
+  ![img.png](../images/img13.png)
 ---
 ### 3. 댓글 갯수 표시
 - `Bootstrap`을 이용하여 게시글 목록에 댓글갯수를 표시
   ```html
   <td th:text="${paging.getTotalElements()-(paging.number * paging.size)-loop.index}"></td>
   ```
-  ![img_1.png](../static/images/img14.png)
+  ![img_1.png](../images/img14.png)
 ---
 ### 4. 스프링 시큐리티 세팅
 - `build.gradle` 에서 `SpringSecurity` 의존성을 추가한 뒤 프로젝트를 실행하면 **시큐리티가 제공하는 로그인창으로 이동**한다.

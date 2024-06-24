@@ -47,4 +47,6 @@
 > 4. 게시글 작성자,댓글 작성자 추가
 
 ## [9일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day09.md)
-> 1. 수정, 삭제 기능 추가 
+> 1. 수정, 삭제 기능 추가
+> 2. 앵커 
+> 3. 검색

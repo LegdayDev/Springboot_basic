@@ -3,6 +3,7 @@ package com.legday.backboard.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class Board {
     @Column(updatable = false)
     private LocalDateTime createDate;
 
+    @LastModifiedDate // 수정일자
+    @Column(name = "modifyDate")
+    private LocalDateTime modifyDate;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 
@@ -38,7 +43,8 @@ public class Board {
     @Override
     public String toString() {
         return "Board{" +
-                "createDate=" + createDate +
+                "modifyDate=" + modifyDate +
+                ", createDate=" + createDate +
                 ", content='" + content + '\'' +
                 ", title='" + title + '\'' +
                 ", bno=" + bno +

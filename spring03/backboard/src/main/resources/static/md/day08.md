@@ -366,7 +366,7 @@
     <a class="nav-link" th:href="@{/member/register}">회원가입</a>
   </li>
   ```
-  ![img.png](img.png)
+  ![img.png](../images/img19.png)
 ---
 ## 3. SpringSecurity 로그아웃 구현
 - 스프링 시큐리티 설정을 수정해주면 된다.

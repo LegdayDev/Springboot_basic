@@ -17,6 +17,14 @@
           <div th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
+      <!-- 수정삭제 버튼 영역 -->
+      <div th:if="${board.writer != null and #authentication.getPrincipal().getUsername() == board.writer.username}"
+           sec:authorize="isAuthenticated()"
+           class="mt-2 d-flex justify-content-end">
+        <a th:href="@{|/board/modify/${board.bno}|}" class="btn btn-sm btn-outline-success mx-2">수정</a>
+        <a th:data-uri="@{|/board/delete/${board.bno}|}"
+           href="javascript:void(0);" class="delete btn btn-sm btn-outline-danger">삭제</a>
+      </div>
     </div>
   </div>
 
@@ -36,6 +44,14 @@
           <div th:text="${#temporals.format(reply.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
+      <!-- 댓글 수정삭제 버튼 영역 -->
+      <div th:if="${reply.writer != null and #authentication.getPrincipal().getUsername() == reply.writer.username}"
+           sec:authorize="isAuthenticated()"
+           class="mt-2 d-flex justify-content-end">
+        <a th:href="@{|/reply/modify/${reply.rno}|}" class="btn btn-sm btn-outline-success mx-2">수정</a>
+        <a th:data-uri="@{|/reply/delete/${reply.rno}|}"
+           href="javascript:void(0);" class="delete btn btn-sm btn-outline-danger">삭제</a>
+      </div>
     </div>
   </div>
 
@@ -50,4 +66,14 @@
     </div>
   </form>
 </div>
+<script layout:fragment="sub-script" type="text/javascript">
+    const del_elements = document.getElementsByClassName("delete");
+
+    Array.from(del_elements).forEach(function (element) {
+        element.addEventListener("click", function () {
+            if (confirm("정말로 삭제하시겠습니가?"))
+                location.href = this.dataset.uri;
+        });
+    });
+</script>
 </html>

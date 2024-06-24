@@ -3,6 +3,7 @@ package com.legday.backboard.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,10 @@ public class Reply {
     @Column(name = "createDate", updatable = false)
     private LocalDateTime createDate;
 
+    @LastModifiedDate // 수정일자
+    @Column(name = "modifyDate")
+    private LocalDateTime modifyDate;
+
     @JoinColumn(name="BOARD_BNO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
@@ -33,9 +38,10 @@ public class Reply {
     @Override
     public String toString() {
         return "Reply{" +
-                "rno=" + rno +
-                ", content='" + content + '\'' +
+                "modifyDate=" + modifyDate +
                 ", createDate=" + createDate +
+                ", content='" + content + '\'' +
+                ", rno=" + rno +
                 '}';
     }
 }

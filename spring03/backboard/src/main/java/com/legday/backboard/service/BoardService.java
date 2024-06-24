@@ -4,10 +4,10 @@ import com.legday.backboard.common.NotFoundException;
 import com.legday.backboard.entity.Board;
 import com.legday.backboard.entity.Member;
 import com.legday.backboard.repository.BoardRepository;
+import com.legday.backboard.validation.BoardForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,22 @@ public class BoardService {
 
     @Transactional
     public Long saveBoard(String title, String content, Member writer) {
-        Board save = boardRepository.save(Board.builder().title(title).content(content).writer(writer).createDate(LocalDateTime.now()).build());
-        return save.getBno();
+        // PK 없으면 INSERT
+        return boardRepository.save(Board.builder().title(title).content(content).writer(writer).createDate(LocalDateTime.now()).build()).getBno();
+    }
+
+    @Transactional
+    public void updateBoard(Board board, BoardForm boardForm){
+        board.setTitle(boardForm.getTitle());
+        board.setContent(boardForm.getContent());
+        board.setModifyDate(LocalDateTime.now());
+
+        // PK 있으면 UPDATE
+        boardRepository.save(board);
+    }
+
+    @Transactional
+    public void deleteBoard(Board board){
+        boardRepository.delete(board);
     }
 }

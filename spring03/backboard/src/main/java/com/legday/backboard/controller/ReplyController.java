@@ -44,10 +44,10 @@ public class ReplyController {
             return "board/detail";
         }
 
-        replyService.saveReply(board, form.getContent(), principalDetails.getMember());
+        Reply reply = replyService.saveReply(board, form.getContent(), principalDetails.getMember());
         log.info("Reply save success");
         model.addAttribute("board", board);
-        return String.format("redirect:/board/detail/%s", bno);
+        return String.format("redirect:/board/detail/%s#reply_%s", bno, reply.getRno());
     }
 
     @PreAuthorize(("isAuthenticated()"))
@@ -83,7 +83,7 @@ public class ReplyController {
 
         replyService.updateReply(reply, replyForm);
 
-        return "redirect:/board/detail/" + reply.getBoard().getBno();
+        return String.format("redirect:/board/detail/%s#reply_%s", reply.getBoard().getBno(), reply.getRno());
     }
 
     @PreAuthorize(("isAuthenticated()"))

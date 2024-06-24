@@ -22,12 +22,14 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
 
     @Transactional
-    public void saveReply(Board board, String content, Member member) {
+    public Reply saveReply(Board board, String content, Member member) {
         Reply reply = Reply.builder().board(board).content(content).writer(member).createDate(LocalDateTime.now()).build();
         log.info("댓글 객체 생성, reply = {}", reply);
 
         replyRepository.save(reply);
         log.info("댓글 객체 저장 완료!");
+
+        return reply;
     }
 
     public Reply findReply(Long rno) {

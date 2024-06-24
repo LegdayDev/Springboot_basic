@@ -1,59 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
-
 <div layout:fragment="main-content" class="container my-3">
-  <h2>게시판 목록</h2>
-  <hr>
-  <table class="table table-success table-striped">
+  <!-- 검색창 영역 -->
+  <div class="row my-3 align-items-center">
+    <div class="col-8">
+      <a th:href="@{/board/create}" class="btn btn-sm btn-primary my-2">게시글 등록</a>
+    </div>
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+        <button id="btn_search" type="button" class="btn btn-sm btn-outline-secondary">찾기</button>
+      </div>
+    </div>
+  </div>
+  <!-- 게시글 리스트 -->
+  <table class="table table-light table-striped">
     <thead class="table-dark">
     <tr class="text-center">
       <th>번호</th>
-      <th style="width: 60%;">제목</th>
+      <th style="width: 50%;">제목</th>
       <th>작성자</th>
       <th>작성일</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="board, loop : ${paging}" class="text-center">
-      <td th:text="${paging.getTotalElements()-(paging.number * paging.size)-loop.index}" class="text-end"></td>
-      <td class="text-center">
-        <a th:href="@{/board/detail/{boardId}(boardId=${board.getBno()})}" th:text="${board.getTitle()}"></a>
-        <span th:if="${#lists.size(board.replies) > 0}" th:text="${#lists.size(board.replies)}" class="badge text-bg-success">Success</span>
+      <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}" class="text-end"></td>
+      <td class="text-start">
+        <a th:href="@{|/board/detail/${board.bno}|}" th:text="${board.title}"></a>
+        <!-- 댓글 개수 띄워주는 함수 -->
+        <span th:if="${#lists.size(board.replies) > 0}" th:text="${#lists.size(board.replies)}"
+              class="badge text-bg-success"></span>
       </td>
-      <!-- 작성자 -->
+      <!-- 작성자 추가 -->
       <td>
-        <span th:if="${board.getWriter() != null}" th:text="${board.writer.username}"></span>
+        <span th:if="${board.writer != null}" th:text="${board.writer.username}"></span>
       </td>
-      <td th:text="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></td>
+      <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></td>
     </tr>
     </tbody>
   </table>
-  <!-- 페이징 시작-->
-  <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
+  <!-- 페이징 시작 -->
+  <div th:if="${!paging.isEmpty()}">
     <ul class="pagination justify-content-center">
-      <li th:classappend="${!paging.hasPrevious()} ? disabled" class="page-item">
-        <a th:href="@{|?page=0|}" class="page-link">&lt;&lt;</a>
+
+      <!-- 이전 버튼 -->
+      <li th:classappend="${!paging.hasPrevious} ? disabled" class="page-item">
+        <!-- classappend: 만약에 페이징에 hasPrevious값이 없으면 ? 뒤의 결과를 도출 -->
+        <!-- <a th:href="@{|?page=0|}" class="page-link">&lt;&lt;</a> 이전 방식 -->
+
+        <a th:data-page="${0}" href="javascript:void(0)" class="page-link">&lt;&lt;</a>
+        <!--  href="javascript:void(0)" : 아무일도 일어나지 않는 형태 -->
       </li>
-      <li th:classappend="${!paging.hasPrevious()} ? disabled" class="page-item">
-        <a th:href="@{|?page=${paging.number-1}|}" class="page-link">&lt;</a>
+      <li th:classappend="${!paging.hasPrevious} ? disabled" class="page-item">
+        <!-- <a th:href="@{|?page=${paging.number-1}|}" class="page-link">&lt;</a> -->
+        <a th:data-page="${paging.number-1}" href="javascript:void(0)" class="page-link">&lt;</a>
       </li>
-      <li th:each="page : ${#numbers.sequence(0, (paging.totalPages)-1)}"
-          th:if="${page >= (paging.number)-5 and page <= (paging.number)+5}"
-          th:classappend="${page == paging.number} ? active"
+
+      <!-- 페이지 번호 버튼 -->
+      <li th:each="page : ${#numbers.sequence(0, paging.totalPages-1)}"
+          th:if="${page >= paging.number-4 and page <= paging.number+4}"
+          th:classappend="${page == paging.number} ? 'active'"
           class="page-item">
-        <a th:href="@{|?page=${page}|}" th:text="${page}+1" class="page-link"></a>
+        <!-- <a th:href="@{|?page=${page}|}" th:text="${page+1}" class="page-link"></a> -->
+        <a th:data-page="${page}" th:text="${page+1}" href="javascript:void(0)" class="page-link"></a>
       </li>
-      <li th:classappend="${!paging.hasNext()} ? disabled" class="page-item">
-        <a th:href="@{|?page=${paging.number+1}|}" class="page-link">&gt;</a>
+
+      <!-- 다음 버튼 -->
+      <li th:classappend="${!paging.hasNext} ? disabled" class="page-item">
+        <!-- <a th:href="@{|?page=${paging.number+1}|}" class="page-link">&gt;</a> -->
+        <a th:data-page="${paging.number+1}" href="javascript:void(0)" class="page-link">&gt;</a>
       </li>
-      <li th:classappend="${!paging.hasNext()} ? disabled" class="page-item">
-        <a th:href="@{|?page=${(paging.getTotalPages())-1}|}" class="page-link">&gt;&gt;</a>
+      <li th:classappend="${!paging.hasNext} ? disabled" class="page-item">
+        <!-- <a th:href="@{|?page=${paging.totalPages-1}|}" class="page-link">&gt;&gt;</a> -->
+        <a th:data-page="${paging.totalPages-1}" href="javascript:void(0)" class="page-link">&gt;&gt;</a>
       </li>
     </ul>
-  </nav>
-  <!-- 페이징 끝 -->
-  <div class="d-flex justify-content-end">
-    <a th:href="@{/board/create}" class="btn btn-sm btn-primary my-2">게시글 등록</a>
   </div>
+  <!-- 검색부분 영역 -->
+  <form th:action="@{/board/list}" method="get" id="searchForm">
+    <input type="hidden" id="kw" name="kw" th:value="${kw}">
+    <input type="hidden" id="page" name="page" th:value="${paging.number}">
+  </form>
 </div>
+
+<script layout:fragment="sub-script" type="text/javascript">
+    const page_elements =document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener("click",function(e) {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener("click", function(e) {
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value = 0;  // 검색할 경우 0페이지부터
+        document.getElementById('searchForm').submit();
+    });
+
+    // 검색창 엔터 검색
+    const search_kw = document.getElementById("search_kw");
+    search_kw.addEventListener("keypress", function(e) {
+        if(event.key == 'Enter') {
+            event.preventDefault();  // HTML은 부모자식관계로 구성되므로 자식에서는 이 이벤트가 발생하면 안됨.
+            document.getElementById('btn_search').click();
+        }
+    });
+</script>
 </html>

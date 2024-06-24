@@ -1,6 +1,7 @@
 package com.legday.backboard.repository;
 
 import com.legday.backboard.entity.Board;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     // 페이징 JPA 쿼리
     // select b1_0.bno,b1_0.content,b1_0.create_date,b1_0.title from board b1_0 offset 0 rows fetch first 10 rows only
     Page<Board> findAll(Pageable pageable);
+
+    Page<Board> findAll(Specification<Board> spec, Pageable pageable);
+
 }

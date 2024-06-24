@@ -7,6 +7,7 @@ import com.legday.backboard.validation.BoardForm;
 import com.legday.backboard.validation.ReplyForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,8 +25,12 @@ public class BoardController {
 
 
     @GetMapping({"/board/list", "/"})
-    public String boardFormV2(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-        model.addAttribute("paging", boardService.boardList(page));
+    public String list(Model model, @RequestParam(value ="page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String keyword) {
+        Page<Board> paging = this.boardService.boardList(page, keyword);   // 검색추가
+        model.addAttribute("paging", paging);
+        model.addAttribute("kw", keyword);
+
         return "/board/list";
     }
 

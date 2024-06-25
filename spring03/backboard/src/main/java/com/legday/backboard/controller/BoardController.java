@@ -2,7 +2,9 @@ package com.legday.backboard.controller;
 
 import com.legday.backboard.config.auth.PrincipalDetails;
 import com.legday.backboard.entity.Board;
+import com.legday.backboard.entity.Category;
 import com.legday.backboard.service.BoardService;
+import com.legday.backboard.service.CategoryService;
 import com.legday.backboard.validation.BoardForm;
 import com.legday.backboard.validation.ReplyForm;
 import jakarta.validation.Valid;
@@ -22,14 +24,29 @@ import org.springframework.web.server.ResponseStatusException;
 public class BoardController {
 
     private final BoardService boardService;
-
+    private final CategoryService categoryService;
 
     @GetMapping({"/board/list", "/"})
-    public String list(Model model, @RequestParam(value ="page", defaultValue = "0") int page,
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String keyword) {
         Page<Board> paging = this.boardService.boardList(page, keyword);   // 검색추가
         model.addAttribute("paging", paging);
         model.addAttribute("kw", keyword);
+
+        return "/board/list";
+    }
+
+    @GetMapping("/board/list/{category}")
+    public String list(Model model,
+                       @PathVariable("category") String category,
+                       @RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String keyword) {
+        Category findCategory = categoryService.findCategory(category);
+
+        Page<Board> paging = this.boardService.boardList(page, keyword, findCategory); // 검색 및 카테고리 추가
+        model.addAttribute("paging", paging);
+        model.addAttribute("kw", keyword);
+        model.addAttribute("category", category);
 
         return "/board/list";
     }
@@ -50,13 +67,44 @@ public class BoardController {
 
     @PreAuthorize(("isAuthenticated()"))
     @PostMapping("/board/create")
-    public String create(@Valid BoardForm form, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String create(@Valid BoardForm form,
+                         BindingResult bindingResult,
+                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if (bindingResult.hasErrors())
             return "redirect:/board/create";
 
         Long bno = boardService.saveBoard(form.getTitle(), form.getContent(), principalDetails.getMember());
 
         return "redirect:/board/detail/" + bno;
+    }
+
+    // 카테고리 추가
+    @PreAuthorize(("isAuthenticated()"))
+    @GetMapping("/board/create/{category}")
+    public String createForm(@PathVariable("category") String category,
+                             BoardForm boardForm,
+                             Model model) {
+        model.addAttribute("boardForm", boardForm);
+        model.addAttribute("category", category);
+        return "/board/create";
+    }
+
+    // 카테고리 추가
+    @PreAuthorize(("isAuthenticated()"))
+    @PostMapping("/board/create/{category}")
+    public String create(@PathVariable("category") String category,
+                         @Valid BoardForm form,
+                         BindingResult bindingResult,
+                         @AuthenticationPrincipal PrincipalDetails principalDetails,
+                         Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("category", category);
+            return "redirect:/board/create";
+        }
+        Category findCategory = categoryService.findCategory(category);
+        boardService.saveBoard(form.getTitle(), form.getContent(), principalDetails.getMember(), findCategory);
+
+        return "redirect:/board/list/" + category;
     }
 
     @PreAuthorize(("isAuthenticated()"))

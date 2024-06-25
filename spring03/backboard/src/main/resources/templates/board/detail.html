@@ -1,11 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container my-3" layout:fragment="main-content">
   <!-- 게시글 영역 -->
   <h2 th:text="${board.getTitle()}" class="border-bottom py-2"></h2>
   <div class="card text-bg-light my-3">
     <div class="card-body">
-      <div th:text="${board.getContent()}" class="card-text"></div>
+      <div th:utext="${@CommonUtil.markdown(board.getContent())}" class="card-text"></div>
       <div class="d-flex justify-content-end">
         <!-- 수정일자 표시하는 뱃지 -->
         <div th:if="${board.modifyDate != null}" class="badge text-bg-primary p-2">
@@ -26,9 +26,9 @@
       </div>
       <!-- 수정삭제 버튼 영역 -->
       <div th:if="${board.writer != null and #authentication.getPrincipal().getUsername() == board.writer.username}"
-           sec:authorize="isAuthenticated()"
-           class="mt-2 d-flex justify-content-end">
-        <a th:href="@{|/board/modify/${board.bno}|}" class="btn btn-sm btn-outline-success mx-2">수정</a>
+           sec:authorize="isAuthenticated()" class="mt-2 d-flex justify-content-end">
+        <a th:href="@{|/board/modify/${board.bno}|}"
+           class="btn btn-sm btn-outline-success mx-2">수정</a>
         <a th:data-uri="@{|/board/delete/${board.bno}|}"
            href="javascript:void(0);" class="delete btn btn-sm btn-outline-danger">삭제</a>
       </div>
@@ -41,8 +41,15 @@
     <!-- 댓글 위치 -->
     <a th:id="|reply_${reply.rno}|"></a>
     <div class="card-body">
-      <div th:text="${reply.content}" class="card-text"></div>
+      <div th:utext="${@CommonUtil.markdown(reply.content)}" class="card-text"></div>
       <div class="d-flex justify-content-end">
+        <!-- 수정일자 표시하는 뱃지 -->
+        <div th:if="${reply.modifyDate != null}" class="badge text-bg-primary p-2">
+          <div class="mb-2">
+            <span>최종 수정일</span>
+          </div>
+          <div th:text="${#temporals.format(reply.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+        </div>
         <!-- 댓글작성자와 작성일 표시하는 뱃지 -->
         <div class="badge text-bg-success p-2">
           <div class="mb-2">
@@ -53,18 +60,11 @@
           <div th:text="${#temporals.format(reply.getCreateDate(), 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
-      <!-- 수정일자 표시하는 뱃지 -->
-      <div th:if="${reply.modifyDate != null}" class="badge text-bg-primary p-2">
-        <div class="mb-2">
-          <span>최종 수정일</span>
-        </div>
-        <div th:text="${#temporals.format(reply.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
-      </div>
       <!-- 댓글 수정삭제 버튼 영역 -->
       <div th:if="${reply.writer != null and #authentication.getPrincipal().getUsername() == reply.writer.username}"
-           sec:authorize="isAuthenticated()"
-           class="mt-2 d-flex justify-content-end">
-        <a th:href="@{|/reply/modify/${reply.rno}|}" class="btn btn-sm btn-outline-success mx-2">수정</a>
+           sec:authorize="isAuthenticated()" class="mt-2 d-flex justify-content-end">
+        <a th:href="@{|/reply/modify/${reply.rno}|}"
+           class="btn btn-sm btn-outline-success mx-2">수정</a>
         <a th:data-uri="@{|/reply/delete/${reply.rno}|}"
            href="javascript:void(0);" class="delete btn btn-sm btn-outline-danger">삭제</a>
       </div>
@@ -72,24 +72,27 @@
   </div>
 
   <!-- 댓글 기능 영역-->
-  <form th:action="@{|/reply/create/${board.getBno()}|}" th:object="${replyForm}" method="post" class="my-3">
+  <form th:action="@{|/reply/create/${board.bno}|}" th:object="${replyForm}" method="post" class="my-3">
     <div th:replace="~{errors :: formErrorFragment}"></div>
+
     <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
-    <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="10" class="form-control"></textarea>
+    <textarea sec:authorize="isAuthenticated()"  th:field="*{content}" rows="10" class="form-control"></textarea>
     <div class="d-flex justify-content-end mt-2">
-      <a href="/board/list" class="btn btn-secondary mx-1 btn-sm">목록</a>
+      <a href="${prevUrl}" class="btn btn-secondary mx-1 btn-sm">목록</a>
       <input type="submit" value="댓글등록" class="btn btn-primary btn-sm">
     </div>
   </form>
 </div>
 <script layout:fragment="sub-script" type="text/javascript">
-    const del_elements = document.getElementsByClassName("delete");
+    const del_elments = document.getElementsByClassName('delete');
 
-    Array.from(del_elements).forEach(function (element) {
-        element.addEventListener("click", function () {
-            if (confirm("정말로 삭제하시겠습니가?"))
+    Array.from(del_elments).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm('삭제하시겠습니까?')) {
                 location.href = this.dataset.uri;
+            }
         });
     });
+    var simplemde = new SimpleMDE({element: document.getElementById("content")});
 </script>
 </html>

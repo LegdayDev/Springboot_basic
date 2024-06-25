@@ -225,7 +225,3 @@
       return "redirect:/board/detail/" + reply.getBoard().getBno();
   }
   ```
-- 댓글 수정폼인 `modify.html` 을 생성한다.
-```html
-
-```

@@ -9,6 +9,8 @@ import java.util.Optional;
 // 페이징
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
     // 쿼리 메서드
@@ -24,4 +26,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findAll(Specification<Board> spec, Pageable pageable);
 
+    @Query("SELECT DISTINCT b " +
+            "FROM Board b " +
+            "LEFT OUTER JOIN Reply r ON r.board = b " +
+            "WHERE b.title LIKE %:kw% " +
+            "OR b.content LIKE %:kw% " +
+            "OR r.content LIKE %:kw% ")
+    Page<Board> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
 }

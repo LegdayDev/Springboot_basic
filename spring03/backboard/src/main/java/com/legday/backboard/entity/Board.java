@@ -40,6 +40,9 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
     @Override
     public String toString() {
         return "Board{" +

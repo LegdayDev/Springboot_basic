@@ -50,3 +50,8 @@
 > 1. 수정, 삭제 기능 추가
 > 2. 앵커 
 > 3. 검색
+
+## [10일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day10.md)
+> 1. 검색 구현방법 변경 : JPA Query
+> 2. 마크다운 에디터 구현
+> 3. 카테고리 구현

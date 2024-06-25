@@ -2,6 +2,7 @@ package com.legday.backboard.service;
 
 import com.legday.backboard.common.NotFoundException;
 import com.legday.backboard.entity.Board;
+import com.legday.backboard.entity.Category;
 import com.legday.backboard.entity.Member;
 import com.legday.backboard.entity.Reply;
 import com.legday.backboard.repository.BoardRepository;
@@ -45,14 +46,21 @@ public class BoardService {
         return this.boardRepository.findAll(pageable);
     }
 
-    // 24.06.24 검색추가 메서드
     public Page<Board> boardList(int page, String keyword) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));   // pageSize 동적으로 변경 가능
 
-        Specification<Board> spec = searchBoard(keyword);
-        return this.boardRepository.findAll(spec, pageable);
+        return boardRepository.findAllByKeyword(keyword, pageable);
+    }
+
+    public Page<Board> boardList(int page, String keyword, Category category) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));   // pageSize 동적으로 변경 가능
+
+        Specification<Board> spec = searchBoard(keyword, category.getId());
+        return boardRepository.findAll(spec, pageable);
     }
 
     @Transactional
@@ -62,7 +70,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void updateBoard(Board board, BoardForm boardForm){
+    public void updateBoard(Board board, BoardForm boardForm) {
         board.setTitle(boardForm.getTitle());
         board.setContent(boardForm.getContent());
         board.setModifyDate(LocalDateTime.now());
@@ -72,7 +80,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteBoard(Board board){
+    public void deleteBoard(Board board) {
         boardRepository.delete(board);
     }
 
@@ -91,7 +99,31 @@ public class BoardService {
                         cb.like(b.get("content"), "%" + keyword + "%"), // 게시글 내용에서 검색
                         cb.like(r.get("content"), "%" + keyword + "%"));    // 댓글 내용에서 검색
             }
-
         };
+    }
+
+    // 카테고리 추가 관련 메서드
+    public Specification<Board> searchBoard(String keyword, Integer cateId) {
+        return new Specification<Board>() {
+            private static final long serialVersionUID = 1L;    // 필요한 값이라서 추가
+
+            @Override
+            public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                // query를 JPA로 생성
+                query.distinct(true);   // 중복제거
+                Join<Board, Reply> r = b.join("replies", JoinType.LEFT);
+
+                return cb.and(cb.equal(b.get("category").get("id"), cateId),
+                        cb.or(cb.like(b.get("title"), "%" + keyword + "%"),  // 게시글 제목에서 검색
+                                cb.like(b.get("content"), "%" + keyword + "%"), // 게시글 내용에서 검색
+                                cb.like(r.get("content"), "%" + keyword + "%")
+                        ));
+            }
+        };
+    }
+
+    @Transactional
+    public void saveBoard(String title, String content, Member writer, Category findCategory) {
+        boardRepository.save(Board.builder().title(title).content(content).writer(writer).category(findCategory).createDate(LocalDateTime.now()).build());
     }
 }

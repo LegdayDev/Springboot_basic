@@ -65,7 +65,7 @@ public class ReplyController {
         replyForm.setContent(reply.getContent());
         model.addAttribute("replyForm", replyForm);
 
-        return "/reply/modify";
+        return "reply/modify";
     }
 
     @PreAuthorize(("isAuthenticated()"))
@@ -75,7 +75,7 @@ public class ReplyController {
                          @PathVariable("rno") Long rno,
                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if (bindingResult.hasErrors())
-            return "/reply/modify";
+            return "reply/modify";
 
         Reply reply = replyService.findReply(rno);
         if (!reply.getWriter().getUsername().equals(principalDetails.getUsername()))

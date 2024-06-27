@@ -49,7 +49,7 @@ public class BoardController {
         model.addAttribute("kw", keyword);
         model.addAttribute("category", category);
 
-        return "/board/list";
+        return "board/list";
     }
 
 
@@ -59,14 +59,14 @@ public class BoardController {
         model.addAttribute("replyForm", replyForm);
         model.addAttribute("board", boardService.hitBoard(bno));
         model.addAttribute("prevUrl", prevUrl);
-        return "/board/detail";
+        return "board/detail";
     }
 
     @PreAuthorize(("isAuthenticated()"))
     @GetMapping("/board/create")
     public String createForm(BoardForm boardForm, Model model) {
         model.addAttribute("boardForm", boardForm);
-        return "/board/create";
+        return "board/create";
     }
 
     @PreAuthorize(("isAuthenticated()"))
@@ -90,7 +90,7 @@ public class BoardController {
                              Model model) {
         model.addAttribute("boardForm", boardForm);
         model.addAttribute("category", category);
-        return "/board/create";
+        return "board/create";
     }
 
     // 카테고리 추가
@@ -124,7 +124,7 @@ public class BoardController {
         boardForm.setContent(board.getContent());
         model.addAttribute("boardForm", boardForm);
 
-        return "/board/create";
+        return "board/create";
     }
 
     @PreAuthorize(("isAuthenticated()"))
@@ -134,7 +134,7 @@ public class BoardController {
                          BindingResult bindingResult,
                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if (bindingResult.hasErrors())
-            return "/board/create";
+            return "board/create";
 
         Board board = boardService.findBoard(bno);
 

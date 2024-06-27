@@ -32,7 +32,6 @@ public class SecurityConfig {
         http.
                 // localhost:8080/ 로 시작하는 모든 경로 허용
                 authorizeHttpRequests(auth -> auth.
-//                        requestMatchers("/board/create","/member/logout", "/reply/create/**").authenticated().
                         anyRequest().permitAll()).
                 // CSRF 위변조 공격을 막는 부분해제, 특정 URL은 CSRF 공격 리스트에서 제거
                 csrf(csrt -> csrt.ignoringRequestMatchers("/h2-console/**")).

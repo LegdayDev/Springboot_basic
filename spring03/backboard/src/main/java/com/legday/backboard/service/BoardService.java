@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,5 +126,26 @@ public class BoardService {
     @Transactional
     public void saveBoard(String title, String content, Member writer, Category findCategory) {
         boardRepository.save(Board.builder().title(title).content(content).writer(writer).category(findCategory).createDate(LocalDateTime.now()).build());
+    }
+
+    /**
+     * <h3>조회수 증가 메서드</h3>
+     * <li>게시물 ID값으로 조회수를 증가시킨다.</li>
+     *
+     * @param bno
+     * @return Board
+     */
+    @Transactional
+    public Board hitBoard(Long bno) {
+        Board boardPS = boardRepository.findById(bno).orElseThrow(() -> {
+            throw new NotFoundException("Board Not Found");
+        });
+        if (boardPS.getHit() == null) {
+            boardPS.setHit(0);
+            boardPS.setHit(boardPS.getHit() + 1);
+        } else {
+            boardPS.setHit(boardPS.getHit() + 1);
+        }
+        return boardPS;
     }
 }

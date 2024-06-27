@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
 <div layout:fragment="main-content" class="container my-3">
   <!-- 검색창 영역 -->
@@ -20,6 +20,7 @@
       <th>번호</th>
       <th style="width: 50%;">제목</th>
       <th>작성자</th>
+      <th>조회수</th>
       <th>작성일</th>
     </tr>
     </thead>
@@ -31,12 +32,19 @@
         <!-- 댓글 개수 띄워주는 함수 -->
         <span th:if="${#lists.size(board.replies) > 0}" th:text="${#lists.size(board.replies)}"
               class="badge text-bg-success"></span>
+        <span th:if="${#temporals.format(board.getCreateDate(), 'yyyy-MM-dd') == #temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+              class="badge badge-sm text-bg-danger">new</span>
       </td>
       <!-- 작성자 추가 -->
       <td>
         <span th:if="${board.writer != null}" th:text="${board.writer.username}"></span>
       </td>
-      <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+      <!--  조회수 추가  -->
+      <td>
+        <span th:text="${board.getHit()}"></span>
+      </td>
+      <!--      <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"></td>-->
+      <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd')}"></td>
     </tr>
     </tbody>
   </table>
@@ -85,16 +93,16 @@
 </div>
 
 <script layout:fragment="sub-script" type="text/javascript">
-    const page_elements =document.getElementsByClassName("page-link");
-    Array.from(page_elements).forEach(function(element) {
-        element.addEventListener("click",function(e) {
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function (element) {
+        element.addEventListener("click", function (e) {
             document.getElementById('page').value = this.dataset.page;
             document.getElementById('searchForm').submit();
         });
     });
 
     const btn_search = document.getElementById("btn_search");
-    btn_search.addEventListener("click", function(e) {
+    btn_search.addEventListener("click", function (e) {
         document.getElementById('kw').value = document.getElementById('search_kw').value;
         document.getElementById('page').value = 0;  // 검색할 경우 0페이지부터
         document.getElementById('searchForm').submit();
@@ -102,8 +110,8 @@
 
     // 검색창 엔터 검색
     const search_kw = document.getElementById("search_kw");
-    search_kw.addEventListener("keypress", function(e) {
-        if(event.key == 'Enter') {
+    search_kw.addEventListener("keypress", function (e) {
+        if (event.key == 'Enter') {
             event.preventDefault();  // HTML은 부모자식관계로 구성되므로 자식에서는 이 이벤트가 발생하면 안됨.
             document.getElementById('btn_search').click();
         }

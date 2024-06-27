@@ -55,3 +55,7 @@
 > 1. 검색 구현방법 변경 : JPA Query
 > 2. 마크다운 에디터 구현
 > 3. 카테고리 구현
+
+## [11일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day11.md)
+> 1. 조회수 표시
+> 2. AWS Lightsail 사용

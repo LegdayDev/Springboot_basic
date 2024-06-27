@@ -7,6 +7,7 @@ import com.legday.backboard.service.BoardService;
 import com.legday.backboard.service.CategoryService;
 import com.legday.backboard.validation.BoardForm;
 import com.legday.backboard.validation.ReplyForm;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,15 +27,15 @@ public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
 
-    @GetMapping({"/board/list", "/"})
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                       @RequestParam(value = "kw", defaultValue = "") String keyword) {
-        Page<Board> paging = this.boardService.boardList(page, keyword);   // 검색추가
-        model.addAttribute("paging", paging);
-        model.addAttribute("kw", keyword);
-
-        return "/board/list";
-    }
+//    @GetMapping("/board/list")
+//    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+//                       @RequestParam(value = "kw", defaultValue = "") String keyword) {
+//        Page<Board> paging = this.boardService.boardList(page, keyword);   // 검색추가
+//        model.addAttribute("paging", paging);
+//        model.addAttribute("kw", keyword);
+//
+//        return "/board/list";
+//    }
 
     @GetMapping("/board/list/{category}")
     public String list(Model model,
@@ -51,10 +52,13 @@ public class BoardController {
         return "/board/list";
     }
 
+
     @GetMapping("/board/detail/{bno}")
-    public String detailForm(@PathVariable("bno") Long bno, Model model, ReplyForm replyForm) {
+    public String detailForm(@PathVariable("bno") Long bno, Model model, ReplyForm replyForm, HttpServletRequest request) {
+        String prevUrl = request.getHeader("referer");
         model.addAttribute("replyForm", replyForm);
-        model.addAttribute("board", boardService.findBoard(bno));
+        model.addAttribute("board", boardService.hitBoard(bno));
+        model.addAttribute("prevUrl", prevUrl);
         return "/board/detail";
     }
 

@@ -1,11 +1,11 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.6'
+    id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.legday'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.2-SNAPSHOT'
 
 java {
     toolchain {
@@ -24,32 +24,28 @@ repositories {
 }
 
 dependencies {
-    // 기본 의존성
+    // 기본 디펜던시
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.security:spring-security-test'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    // 테스트를 위한 의존성
+    // 테스트를 위한 디펜던시
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // DB를 위한 의존성
-//    runtimeOnly 'com.h2database:h2'
+
+    // DB를 위한 디펜던시 추가!(H2, Oracle, JPA)
+    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // Thymeleaf layout 적용을 위한 의존성
+    // Thymeleaf 레이아웃 적용을 위한 디펜던시(종속성)
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
-    // 유효성검사 라이브러리
+    // 입력값 검증 디펜던시
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    // 스프링 시큐리티
+    // 스프링 시큐리티 디펜던시
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-
-    // 마크다운 뷰어 의존성
+    // 마크다운 뷰어 디펜던시
     implementation 'org.commonmark:commonmark:0.21.0'
 }
 

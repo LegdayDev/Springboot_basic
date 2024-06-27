@@ -2,6 +2,7 @@ package com.legday.backboard.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -26,6 +27,9 @@ public class Board {
     @Column(name = "content", length = 1000, nullable = false)
     private String content;
 
+    @ColumnDefault(value = "0")
+    private Integer hit; // 조회수 컬럼
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createDate;
@@ -35,7 +39,7 @@ public class Board {
     private LocalDateTime modifyDate;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
-    private List<Reply> replies = new ArrayList<>();
+    private List<Reply> replies;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;

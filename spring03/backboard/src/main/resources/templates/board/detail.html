@@ -76,9 +76,9 @@
     <div th:replace="~{errors :: formErrorFragment}"></div>
 
     <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
-    <textarea sec:authorize="isAuthenticated()"  th:field="*{content}" rows="10" class="form-control"></textarea>
+    <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="10" class="form-control"></textarea>
     <div class="d-flex justify-content-end mt-2">
-      <a href="${prevUrl}" class="btn btn-secondary mx-1 btn-sm">목록</a>
+      <a th:href="${prevUrl}"  class="btn btn-secondary mx-1 btn-sm">목록</a>
       <input type="submit" value="댓글등록" class="btn btn-primary btn-sm">
     </div>
   </form>

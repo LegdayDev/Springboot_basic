@@ -6,7 +6,7 @@
     <h4>로그인</h4>
   </div>
 
-  <form th:action="@{/member/login}"  method="post">
+  <form th:action="@{/member/login}" method="post">
     <div th:if="${param.error}">
       <div class="alert alert-danger">
         사용자 이름 혹은 비밀번호를 확인해주세요!
@@ -24,7 +24,10 @@
 
     <div class="d-flex justify-content-center">
       <button type="submit" class="btn btn-sm btn-primary mx-2">로그인</button>
-      <a href="/" class="btn btn-sm btn-secondary">취소</a>
+      <a href="/" class="btn btn-sm btn-secondary ms-1 me-5">취소</a>
+
+      <!--  비밀번호 초기화 버튼  -->
+      <a href="/member/reset" class="btn btn-sm btn-info">비밀번호 초기화</a>
     </div>
   </form>
 </div>

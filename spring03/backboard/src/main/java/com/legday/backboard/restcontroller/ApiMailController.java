@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/mail")
 @RestController
-public class MailController {
+public class ApiMailController {
     private final MailService mailService;
 
     @PostMapping("/test-email")

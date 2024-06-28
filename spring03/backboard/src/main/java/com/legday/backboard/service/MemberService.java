@@ -34,9 +34,22 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    @Transactional
+    public void saveMember(Member memberPS) {
+        memberPS.setPassword(bCryptPasswordEncoder.encode(memberPS.getPassword()));
+        memberRepository.save(memberPS);
+    }
+
     public Member findMember(String username){
         return memberRepository.findByUsername(username).orElseThrow(() -> {
             throw new NotFoundException("객체를 찾을 수 없습니다 !");
         });
     }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(()->{
+            throw new NotFoundException("객체를 찾을 수 없습니다 !");
+        });
+    }
+
 }

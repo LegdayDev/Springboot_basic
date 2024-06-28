@@ -63,3 +63,6 @@
 ## [12일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day12.md)
 > 1. 에러페이지 세팅
 > 2. 이메일 전송(네이버)
+
+## [13일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day13.md)
+> 1. 비밀번호 초기화 구현

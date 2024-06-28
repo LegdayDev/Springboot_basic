@@ -5,7 +5,8 @@
   <h5 class="border-bottom my-3 pb-2">게시글 등록 및 수정</h5>
 
   <form th:object="${boardForm}" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <!-- TODO : CSRF 토큰을 비활성화 했기 때문에 잠시 주석해준다. -->
+    <!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
 
     <div th:replace="~{errors :: formErrorFragment}"></div>
     <div class="mb-3">

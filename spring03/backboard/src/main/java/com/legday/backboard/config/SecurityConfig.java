@@ -11,6 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +40,7 @@ public class SecurityConfig {
                 // CSRF 위변조 공격을 막는 부분해제, 특정 URL은 CSRF 공격 리스트에서 제거
 //                csrf(csrt -> csrt.ignoringRequestMatchers("/h2-console/**")).
                 csrf(csrf->csrf.disable()).
+                cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource())).
                 // h2-console 페이지가 <frameset> , <frame>으로 구성되기 때문에 CORS와 유사한 옵션 추가
                 headers(headerConfig -> headerConfig.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))).
                 formLogin(config -> config.loginPage("/member/login").defaultSuccessUrl("/")).
@@ -46,5 +51,17 @@ public class SecurityConfig {
         ;
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000"));    //허용할 Origin URL
+            config.setAllowCredentials(true);
+            return config;
+        };
     }
 }

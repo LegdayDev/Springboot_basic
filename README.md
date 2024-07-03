@@ -66,3 +66,7 @@
 
 ## [13일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day13.md)
 > 1. 비밀번호 초기화 구현
+
+## [14일차](https://github.com/LegdayDev/Springboot_basic/blob/master/spring03/backboard/src/main/resources/static/md/day13.md)
+> 1. React 세팅 및 연동 
+> 2. 상세화면
